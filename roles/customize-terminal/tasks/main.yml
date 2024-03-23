@@ -1,0 +1,27 @@
+---
+- name: "Copy .bashrc file"
+  copy:
+    src: "{{ role_path }}/files/.bashrc"
+    dest: "{{ ansible_env.HOME }}"
+- name: "Read current mate term profile"
+  dconf:
+    key: "/org/mate/terminal/global/profile-list"
+    state: "read"
+  register: "profile_list"
+- name: "Terminal Profile list was empty, Now setting..."
+  set_fact:
+    profile_list:
+      value: '["default"]'
+  when: profile_list.value is none
+- name: "Add oph3 terminal profile"
+  set_fact:
+    new_profile_list: "{{ profile_list.value | regex_replace(']$', \", '0ph3']\") }}"
+- name: "Write update terminal profile list"
+  dconf:
+    key: "/org/mate/terminal/global/profile-list"
+    value: "{{ new_profile_list }}"
+  when: "'0ph3' not in profile_list.value"
+- name: "Setting terminal profile"
+  shell:
+    cmd: "dconf load /org/mate/terminal/profiles/0ph3 < {{ role_path }}/files/0ph3-dconf-dump"
+  when: "'0ph3' not in profile_list.value"

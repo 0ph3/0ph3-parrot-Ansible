@@ -1,0 +1,23 @@
+---
+- name: "0ph3 Custom Parrot VM"
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: "Banner"
+      debug:
+        msg: "Installing 1337 hacker arsenal!"
+  roles:
+    - role: "roles/configure-tmux"
+    - role: "roles/customize-terminal"
+    - role: "roles/install-tools"
+    - role: "roles/customize-browser"
+    - role: gantsign.visual-studio-code
+      users:
+        - username: "{{ ansible_user_id }}"
+          visual_studio_code_extensions:
+            - streetsidesoftware.code-spell-checker
+            - wholroyd.jinja
+            - ms-python.python
+            - Github.copilot
+            - snyk-security.snyk-vulnerability-scanner
+            - DEVSENSE.phptools-vscode
