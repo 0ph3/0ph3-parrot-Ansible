@@ -23,5 +23,5 @@
   when: "'0ph3' not in profile_list.value"
 - name: "Setting terminal profile"
   shell:
-    cmd: "dconf load /org/mate/terminal/profiles/0ph3 < {{ role_path }}/files/0ph3-dconf-dump"
+    cmd: "dconf load /org/mate/terminal/profiles/0ph3/ < {{ role_path }}/files/0ph3-dconf-dump"
   when: "'0ph3' not in profile_list.value"
